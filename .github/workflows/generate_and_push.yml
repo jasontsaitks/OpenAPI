@@ -33,14 +33,16 @@ jobs:
       run: |
         echo Hello, world!
         echo $(date +%F-%T) >> date.txt
+        cat date.txt
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git diff
+        git add .
         git commit -m "Add changes" -a
     - name: Pushes to another repository
       uses: ad-m/github-push-action@master
       with:
           branch: 'test'
           repository: jasontsaitks/javascript-sdk
-          
