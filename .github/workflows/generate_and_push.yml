@@ -31,14 +31,16 @@ jobs:
         fetch-depth: 0
     - name: Create local changes
       run: |
-        run: echo Hello, world!
-        ...
+        echo Hello, world!
+        echo $(date +%F-%T) >> date.txt
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Add changes" -a
-    - name: Push changes
-      uses: jasontsaitks/javascript-sdk@test
+    - name: Pushes to another repository
+      uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'test'
+          repository: jasontsaitks/javascript-sdk
+          
