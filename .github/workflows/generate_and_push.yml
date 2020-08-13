@@ -33,14 +33,16 @@ jobs:
           name: artifact
           path: new_code
 
+      # Download the default branch of remote repository
       - uses: actions/checkout@v2
         with:
           repository: jasontsaitks/javascript-sdk
-
+          path: current_code
+      # Download the artifact to the correct path
       - uses: actions/download-artifact@v2
         with:
           name: artifact
-          path: current_code
+          path: new_code
 
       - name: sync
         run: |
