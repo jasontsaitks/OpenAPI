@@ -46,4 +46,4 @@ jobs:
       with:
           branch: 'test'
           repository: jasontsaitks/javascript-sdk
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
