@@ -23,10 +23,12 @@ jobs:
     steps:
       # Checkout yaml for code generation
       - uses: actions/checkout@v2
+
       - name: generate code
         run: |
             mkdir new_code
             echo $(date +%F-%T) >> new_code/date.txt
+
       # Save the artifact
       - uses: actions/upload-artifact@v2
         with:
@@ -43,11 +45,6 @@ jobs:
         with:
           name: artifact
           path: new_code
-
-      - name: sync
-        run: |
-          rsync -a --delete new_code/ current_code/
-          ls current_code/
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
