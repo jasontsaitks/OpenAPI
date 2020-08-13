@@ -49,8 +49,8 @@ jobs:
       # update the code
       - name: code update
         run: |
-          rsync -a --exclude={'.github', '.git', '.history' } --delete new_code/ current_code/ 
-          
+          rsync -a --delete new_code/ current_code/javascript
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
