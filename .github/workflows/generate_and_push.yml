@@ -23,15 +23,14 @@ jobs:
     steps:
       # Checkout yaml for code generation
       - name: generate
-        uses: actions/checkout@v2
-        run:
+        - uses: actions/checkout@v2
+        - run:
           makdir new_code
           echo $(date +%F-%T) >> new_code/date.txt
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          
           token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
           branch-suffix: timestamp 
           path: new_code
