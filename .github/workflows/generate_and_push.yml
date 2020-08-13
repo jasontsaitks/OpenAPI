@@ -20,30 +20,19 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-      with:
-        repository: jasontsaitks/javascript-sdk
-        ref: refs/heads/master
-        persist-credentials: false
-        fetch-depth: 0
-    - name: Create local changes
-      run: |
-        echo Hello, world!
-        echo $(date +%F-%T) >> date.txt
-        cat date.txt
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git diff
-        git add .
-        git commit -m "Add changes" -a
-    - name: Pushes to another repository
-      uses: ad-m/github-push-action@master
-      with:
-          branch: 'test'
-          repository: jasontsaitks/javascript-sdk
-          github_token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
+      # Checkout yaml for code generation
+      - name: generate
+        uses: actions/checkout@v2
+        run:
+          makdir new_code
+          echo $(date +%F-%T) >> new_code/date.txt
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          
+          token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
+          branch-suffix: timestamp 
+          path: new_code
+          push-to-fork: jasontsaitks/javascript-sdk
