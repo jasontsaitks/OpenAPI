@@ -24,7 +24,7 @@ jobs:
       # Checkout yaml for code generation
       - uses: actions/checkout@v2
       - name: generate code
-        - run:
+        run: |
             makdir new_code
             echo $(date +%F-%T) >> new_code/date.txt
 
