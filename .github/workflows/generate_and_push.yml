@@ -46,18 +46,11 @@ jobs:
           name: artifact
           path: new_code
 
-      # save the .git used to create PR
-      - name: save .git
-        run: |
-          cp -a current_code/.git .git/
-      
       # update the code
       - name: code update
         run: |
-          rsync -a --delete new_code/ current_code/
-          ls current_code/
-          cp -a .git current_code/
-
+          rsync -a --exclude={'.github', '.git', '.history' } --delete new_code/ current_code/ 
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
