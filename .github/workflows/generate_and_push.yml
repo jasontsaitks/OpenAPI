@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: generate code
         run: |
-            makdir new_code
+            mkdir new_code
             echo $(date +%F-%T) >> new_code/date.txt
 
       - name: Create Pull Request
