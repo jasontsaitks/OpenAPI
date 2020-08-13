@@ -47,6 +47,7 @@ jobs:
       - name: sync
         run: |
           rsync -a --delete new_code/ current_code/
+          ls current_code/
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
