@@ -51,4 +51,4 @@ jobs:
         with:
           token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
           branch-suffix: timestamp 
-          path: current_code
+          path: new_code
