@@ -15,23 +15,33 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: prepare build tool
+        run: |
+            curl https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar --output openapi-generator-cli-4.3.1.jar
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build_tool
+          path: openapi-generator-cli.jar
+
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    steps:
-      - name: prepare openapi-generator-cli
-        run: |
-            curl https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar --output openapi-generator-cli-4.3.1.jar
-
       # Checkout yaml for code generation
       - uses: actions/checkout@v2
+
+      # Download the build tool
+      - uses: actions/download-artifact@v2
+        with:
+          name: build_tool
 
       - name: generate code
         run: |
             mkdir new_javascript
-            java -jar openapi-generator-cli-4.3.1.jar generate -i developer.yaml -g javascript -o new_javascript
+            java -jar openapi-generator-cli.jar generate -i developer.yaml -g javascript -o new_javascript
             
       # Save the artifact
       - uses: actions/upload-artifact@v2
@@ -44,6 +54,7 @@ jobs:
         with:
           repository: jasontsaitks/javascript-sdk
           path: current_code
+
       # Download the artifact to the correct path
       - uses: actions/download-artifact@v2
         with:
