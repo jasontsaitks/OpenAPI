@@ -22,17 +22,38 @@ jobs:
 
     steps:
       # Checkout yaml for code generation
-      - name: generate
-        uses: actions/checkout@v2
-        run:
-          makdir new_code
-          echo $(date +%F-%T) >> new_code/date.txt
+      - uses: actions/checkout@v2
+
+      - name: generate code
+        run: |
+            mkdir new_code
+            echo $(date +%F-%T) >> new_code/date.txt
+            
+      # Save the artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: new_code
+
+      # Download the default branch of remote repository
+      - uses: actions/checkout@v2
+        with:
+          repository: jasontsaitks/javascript-sdk
+          path: current_code
+      # Download the artifact to the correct path
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: new_code
+
+      # update the code
+      - name: code update
+        run: |
+          rsync -a --delete new_code/ current_code/javascript
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          
           token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
           branch-suffix: timestamp 
-          path: new_code
-          push-to-fork: jasontsaitks/javascript-sdk
+          path: current_code
