@@ -50,8 +50,9 @@ jobs:
       - name: save .git
         run: |
           cp -a current_code/.git .git/
-
-      - name: sync
+      
+      # update the code
+      - name: code update
         run: |
           rsync -a --delete new_code/ current_code/
           ls current_code/
