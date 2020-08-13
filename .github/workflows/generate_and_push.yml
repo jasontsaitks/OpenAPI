@@ -27,11 +27,28 @@ jobs:
         run: |
             mkdir new_code
             echo $(date +%F-%T) >> new_code/date.txt
+      # Save the artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: new_code
+
+      - uses: actions/checkout@v2
+        with:
+          repository: jasontsaitks/javascript-sdk
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: current_code
+
+      - name: sync
+        run: |
+          rsync -a --delete new_code/ current_code/
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
           branch-suffix: timestamp 
-          path: new_code
-          push-to-fork: jasontsaitks/javascript-sdk
+          path: current_code
