@@ -22,11 +22,11 @@ jobs:
 
     steps:
       # Checkout yaml for code generation
-      - name: generate
-        - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: generate code
         - run:
-          makdir new_code
-          echo $(date +%F-%T) >> new_code/date.txt
+            makdir new_code
+            echo $(date +%F-%T) >> new_code/date.txt
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
