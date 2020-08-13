@@ -28,7 +28,7 @@ jobs:
         run: |
             mkdir new_code
             echo $(date +%F-%T) >> new_code/date.txt
-
+            
       # Save the artifact
       - uses: actions/upload-artifact@v2
         with:
@@ -46,9 +46,20 @@ jobs:
           name: artifact
           path: new_code
 
+      # save the .git used to create PR
+      - name: save .git
+        run: |
+          cp -a current_code/.git .git/
+
+      - name: sync
+        run: |
+          rsync -a --delete new_code/ current_code/
+          ls current_code/
+          cp -a .git current_code/
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.LANGUAGE_REPO_TOKEN }}
           branch-suffix: timestamp 
-          path: new_code
+          path: current_code
