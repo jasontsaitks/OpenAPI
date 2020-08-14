@@ -15,55 +15,37 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
-    steps:
-      - name: prepare build tool
-        run: |
-            curl https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar --output openapi-generator-cli.jar
-            ls
-      - uses: actions/upload-artifact@v2
-        with:
-          name: build_tool
-          path: openapi-generator-cli.jar
-
   # This workflow contains a single job called "build"
   generate:
     needs: prepare
     runs-on: ubuntu-latest
     steps:
-      # Checkout yaml for code generation
-      - uses: actions/checkout@v2
-
-      # Download the build tool
-      - uses: actions/download-artifact@v2
-        with:
-          name: build_tool
+      - name: Checkout yaml for code generation
+        uses: actions/checkout@v2
 
       - name: generate code
         run: |
             mkdir new_javascript
             java -jar openapi-generator-cli.jar generate -i developer.yaml -g javascript -o new_javascript
             
-      # Save the artifact
-      - uses: actions/upload-artifact@v2
+      - name: Save the artifact
+        uses: actions/upload-artifact@v2
         with:
           name: artifact
           path: new_javascript
 
-      # Download the default branch of remote repository
-      - uses: actions/checkout@v2
+      - name: Download the default branch of remote repository
+        uses: actions/checkout@v2
         with:
           repository: jasontsaitks/javascript-sdk
           path: current_code
 
-      # Download the artifact to the correct path
-      - uses: actions/download-artifact@v2
+      - name: Download the artifact to the correct path
+        uses: actions/download-artifact@v2
         with:
           name: artifact
           path: new_code
 
-      # update the code
       - name: code update
         run: |
           rsync -a --delete new_javascript/ current_code/javascript
