@@ -25,7 +25,7 @@ jobs:
       - name: generate code
         run: |
             mkdir new_javascript
-            java -jar openapi-generator-cli.jar generate -i developer.yaml -g javascript -o new_javascript
+            java -jar ./bin/utils/openapi-generator-cli.jar generate -i developer.yaml -g javascript -o new_javascript
             
       - name: Save the artifact
         uses: actions/upload-artifact@v2
