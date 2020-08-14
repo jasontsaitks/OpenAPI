@@ -21,14 +21,15 @@ jobs:
       - name: prepare build tool
         run: |
             curl https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar --output openapi-generator-cli.jar
+            ls
       - uses: actions/upload-artifact@v2
         with:
           name: build_tool
           path: openapi-generator-cli.jar
 
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  generate:
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       # Checkout yaml for code generation
