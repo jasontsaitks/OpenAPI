@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: v1
+  version: 1.0.0 
   title: Identity Verification
   description: |
     To run tests transactions on our trial endpoint in postman:
