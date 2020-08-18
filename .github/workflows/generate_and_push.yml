@@ -3,7 +3,7 @@
 # Reference: 
   # - https://github.com/ad-m/github-push-action
 
-name: CI
+name: Generate and PR
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
