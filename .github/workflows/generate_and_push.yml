@@ -8,10 +8,10 @@ name: CI
 on:
   push:
     branches: [master]
-
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  version_check:
+  version_check_javascript:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout yaml for version check
@@ -19,7 +19,12 @@ jobs:
 
       - name: version check
         run: |
-          echo "hello world"
+          in a script (check_version.sh under bin/utils)
+          1. we need to get version: PR_A from developer.yaml
+          2. Get published version - npm view package_name versions = B
+          3. check if PR_A in B and > B or if PR_A is not = master_A (from master), then PASS, else FAIL
+          4. Send email and terminate workflow
+
   generate:
     runs-on: ubuntu-latest
     steps:
