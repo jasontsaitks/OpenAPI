@@ -8,23 +8,9 @@ name: CI
 on:
   push:
     branches: [master]
-  
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  version_check_javascript:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout yaml for version check
-        uses: actions/checkout@v2
-
-      - name: version check
-        run: |
-          in a script (check_version.sh under bin/utils)
-          1. we need to get version: PR_A from developer.yaml
-          2. Get published version - npm view package_name versions = B
-          3. check if PR_A in B and > B or if PR_A is not = master_A (from master), then PASS, else FAIL
-          4. Send email and terminate workflow
-
   generate:
     runs-on: ubuntu-latest
     steps:
@@ -36,12 +22,23 @@ jobs:
           mkdir new_javascript
           java -jar ./bin/utils/openapi-generator-cli.jar generate -i developer.yaml -g javascript -o new_javascript
 
+      - name: version check
+        run: |
+          chmod +x .bin/utils/check_version.sh
+          cd new_javascript
+          .bin/utils/check_version.sh
+
+          
+
       - name: Save the artifact
         uses: actions/upload-artifact@v2
         with:
           name: artifact
           path: new_javascript
 
+  pull_request:
+    runs-on: ubuntu-latest
+    steps:
       - name: Download the default branch of remote repository
         uses: actions/checkout@v2
         with:
