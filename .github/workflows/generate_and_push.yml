@@ -24,9 +24,10 @@ jobs:
       - name: version check
         run: |
           ls
+          ls ./bin/utils/
           chmod +x ./bin/utils/check_version.sh
           cd new_javascript
-          ./bin/utils/check_version.sh
+          ../bin/utils/check_version.sh
 
       - name: Save the artifact
         uses: actions/upload-artifact@v2
