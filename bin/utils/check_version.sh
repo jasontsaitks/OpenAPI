@@ -8,6 +8,7 @@ echo $NPM_PACKAGE_VERSION
 echo $PACKAGE_VERSION
 if [ "${NPM_PACKAGE_VERSION}" == "${PACKAGE_VERSION}" ]; then
   echo "Versions are the same"
+  exit 1
 else
   echo "Versions are not the same"
 fi
