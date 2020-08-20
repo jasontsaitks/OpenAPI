@@ -3,7 +3,7 @@
 # Reference:
 # - https://github.com/ad-m/github-push-action
 
-name: CI
+name: Generate and PR
 
 on:
   pull_request:
@@ -13,6 +13,11 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      - name: Print tool versions
+        run: |
+            npm -v
+            node -v
+        
       - name: Checkout yaml for code generation
         uses: actions/checkout@v2
 
