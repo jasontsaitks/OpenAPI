@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0-alpha.1
-  title: test_only_Identity_Verification
+  title: kent_test_identity_verification
   description: |
     To run tests transactions on our trial endpoint in postman:
 
